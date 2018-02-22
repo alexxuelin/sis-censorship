@@ -1,6 +1,8 @@
 import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
+
+# Deterministic Model
 # Initial Conditions
 N = 1000
 I0, R0 = 1, 0
