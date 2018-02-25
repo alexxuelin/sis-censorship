@@ -10,6 +10,9 @@ Visualizes probability distributions of 1000 runs of the SIS model in SIS_stocha
 ## SIS_stochastic_params.py (TODO 1)
 Sweep parameters like beta and gamma on the foundation of SIS_stochastic and SIS_stochastic_pdfs to investigate sensitivity
 Remember -  the significance of ratio between beta and gamma! Take a look at book chapter 2 for things like threshold, asymptote, etc.
+threshold - what determines whether an epidemic will occur of fail to invade
+Basic reproductive ratio - the avg number of secondary cases arising from an average primary case in an entirely susceptible population - BETA/GAMMA
+Its inverse is the relative removal rate - GAMMA/BETA
 
 ## More Tweaks on the Model (TODO 2)
 Write a different model (change the function called 'stochastic_equations' to create a better censorship model)
