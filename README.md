@@ -5,7 +5,7 @@ This project models the spread of information using models for epidemics
 Visualizes 4 simulations of the SIS model (without birth or death, poisson event time interval) over a one month period
 
 ## SIS_stochastic_pdfs.py (DONE)
-Visualizes probability distributions of 1000 runs of the SIS model in SIS_stochastic.py�� over one month, stopping at 1, 5, 10, and 15 days
+Visualizes probability distributions of 1000 runs of the SIS model in SIS_stochastic.py over one month, stopping at 1, 5, 10, and 15 days
 
 ## SIS_stochastic_params.py (TODO 1)
 Sweep parameters like beta and gamma on the foundation of SIS_stochastic and SIS_stochastic_pdfs to investigate sensitivity
