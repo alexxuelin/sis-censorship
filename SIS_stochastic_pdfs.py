@@ -83,15 +83,21 @@ for instance in range(0, instances):
 
 print S;
 
-# todo - plot histograms/PDFs (won't take long!)
-# print np.histogram(S[0])[0],np.histogram(S[0])[1];
-# f2, ((s1, s2), (s3, s4)) = plt.subplots(2, 2, sharex='col', sharey='row');
-# s1.plot(set(S[0]),S[0]);
-# s1.set_title('1 Day');
-# s2.plot(np.histogram(S[1])[0],np.histogram(S[1])[1]);
-# s2.set_title('5 Days')
-# s3.plot(np.histogram(S[2])[0],np.histogram(S[2])[1]);
-# s3.set_title('10 Days')
-# s4.plot(np.histogram(S[3])[0],np.histogram(S[3])[1]);
-# s4.set_title('15 Days')
-# plt.show()
+
+
+# plot 4 snapshots 
+f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row');
+ax1.hist(S[0], bins = 10, alpha=0.75);
+ax1.set_title('1 Day');
+
+ax2.hist(S[1], bins = 20, alpha=0.75);
+ax2.set_title('5 Days');
+
+ax3.hist(S[2], bins = 20, alpha=0.75);
+ax3.set_title('10 Days');
+
+ax4.hist(S[2], bins = 20, alpha=0.75);
+ax4.set_title('15 Days');
+
+fig = plt.gcf();
+plt.show();
