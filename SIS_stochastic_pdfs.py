@@ -2,20 +2,19 @@ import numpy as np
 import pandas as pd
 import pylab as pl
 import matplotlib.pyplot as plt
-# try to import the file SIS_stochastic.py
+# todo: import the file SIS_stochastic.py
 
 # Parameters and Initial Values
-beta= 0.08
-gamma= 1/100.0
-Y0=2.0 #Infected
-N0=100.0 #Total
-# X = N - Y is Susceptibles
+beta= 0.1
+gamma= 1/20.0
+Y0=3 #Naive agents
+N0=100.0 #Total population
+# X = N - Y is Informed Agents
 ND=30 * 24; #Time (a month)
 input = Y0
 
 def stochastic_equations(last_Y,ts):
 	Y=last_Y
-
     #transmission rate = beta * XY/N
 	transmit_rate = beta*(N0-Y)*Y/N0
     #recovery rate = gamma * Y
@@ -83,7 +82,8 @@ for instance in range(0, instances):
 				S[r][instance] = infected[c];  # todo - check if this was done right, go through loop
 
 print S;
-# todo - plot histograms/PDFs (urgent)
+
+# todo - plot histograms/PDFs (won't take long!)
 # print np.histogram(S[0])[0],np.histogram(S[0])[1];
 # f2, ((s1, s2), (s3, s4)) = plt.subplots(2, 2, sharex='col', sharey='row');
 # s1.plot(set(S[0]),S[0]);

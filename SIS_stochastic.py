@@ -3,12 +3,12 @@ import pandas as pd
 import pylab as pl
 import matplotlib.pyplot as plt
 
-beta= 0.08
-gamma= 1/100.0
-
-Y0=2.0 #Infected
-N0=100.0 #Total
-# X = N - Y is Susceptibles
+# Parameters and Initial Values
+beta= 0.1
+gamma= 1/20.0
+Y0=3 #Naive agents
+N0=100.0 #Total population
+# X = N - Y is Informed Agents
 ND=30 * 24; #Time (a month)
 input = Y0
 
