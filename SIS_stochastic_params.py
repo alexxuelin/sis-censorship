@@ -19,17 +19,17 @@ gstep = 9
 beta= np.linspace(bstart,bstop, bstep) #The total number of people that gain access to the
 #site per day
 gamma= np.linspace(gstart,gstop,gstep)#The total length of the denial issued by the government
-Y0=3 #Naive agents
+Y0=30 #informed agents
 N0=100.0 #Total population
-# X = N - Y is Informed Agents
+# X = N - Y is naive Agents
 ND=30 * 24; #Time (a month)
 input = Y0
 
 def stochastic_equations(last_Y,ts, g, b):
 	Y=last_Y
 
-	denial_rate = b*(N0-Y)*Y/N0
-	access_rate = g*Y
+	access_rate  = b*(N0-Y)*Y/N0
+	denial_rate  = g*Y
 
     #generate random numbers
 	rand1=pl.rand()
@@ -37,11 +37,11 @@ def stochastic_equations(last_Y,ts, g, b):
 
     #time until either event occurs
 	ts = -np.log(rand2)/(denial_rate+access_rate)
-	if rand1 < (denial_rate/(denial_rate+access_rate)):
-
+	if rand1 < (access_rate/(denial_rate+access_rate)):
+		# access, one more informed agent
 		Y += 1;
 	else:
-
+		# denial, one fewer informed agent
 		Y -= 1;
 	return [Y, ts]
 
@@ -63,8 +63,6 @@ def stochastic_iteration(input, g, b):
 	return [np.array(naive), np.array(T)]
 
 
-
-
 res_dict={}
 
 
@@ -78,7 +76,7 @@ plt.close('all')
 #fig, ax = plt.subplots( 9, 9, sharex='col', sharey='row');
 
 fig, ax = plt.subplots()
-ax.set_title('Susceptible Populations: sensitivity analysis on Beta and Gamma')
+ax.set_title('Informed Populations: sensitivity analysis on Beta and Gamma')
 
 #plt.axis('off')
 
@@ -100,7 +98,6 @@ for x,g in enumerate(gamma):
 		ax.text(x,-120, 'Gamma: '+ str(g), fontsize = 3)
 		ax.text(-1,(y*100)-120, 'Beta: '+ str(b), fontsize = 3)
 		plot_sense(ax, g, b, res_dict, x, y)
-
 
 
 plt.show()

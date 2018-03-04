@@ -7,17 +7,17 @@ import matplotlib.pyplot as plt
 # Parameters and Initial Values
 beta= 0.1
 gamma= 1/20.0
-Y0=3 #Naive agents
+Y0=30 #informed agents
 N0=100.0 #Total population
-# X = N - Y is Informed Agents
+# X = N - Y is naive Agents
 ND=30 * 24; #Time (a month)
 input = Y0
 
 def stochastic_equations(last_Y,ts):
 	Y=last_Y
 
-	denial_rate = beta*(N0-Y)*Y/N0
-	access_rate = gamma*Y
+	access_rate  = beta*(N0-Y)*Y/N0
+	denial_rate = gamma*Y
 
     #generate random numbers
 	rand1=pl.rand()
@@ -25,11 +25,11 @@ def stochastic_equations(last_Y,ts):
 
     #time until either event occurs
 	ts = -np.log(rand2)/(denial_rate+access_rate)
-	if rand1 < (denial_rate/(denial_rate+access_rate)):
-        # infection
+	if rand1 < (access_rate/(denial_rate+access_rate)):
+        # access, one more informed agent
 		Y += 1;
 	else:
-        # accessy
+        # denial, one fewer informed agent
 		Y -= 1;
 	return [Y, ts]
 
@@ -52,7 +52,7 @@ def stochastic_iteration(input):
 
 ## set up to run more instances
 # take snapshots on certain days, adjust to have insightful stopping points
-stops = [1 * 24, 5 * 24, 10 * 24, 15*24];
+stops = [1 * 24, 5 * 24, 10 * 24, 25*24];
 # number of simulations (100 -> 3s, 1000 -> 15s)
 instances = 100;
 
@@ -95,8 +95,8 @@ ax2.set_title('5 Days');
 ax3.hist(S[2], bins = 20, alpha=0.75);
 ax3.set_title('10 Days');
 
-ax4.hist(S[2], bins = 20, alpha=0.75);
-ax4.set_title('15 Days');
+ax4.hist(S[3], bins = 20, alpha=0.75);
+ax4.set_title('25 Days');
 
 fig = plt.gcf();
 plt.show();
