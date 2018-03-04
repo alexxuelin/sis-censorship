@@ -28,26 +28,20 @@ input = Y0
 def stochastic_equations(last_Y,ts, g, b):
 	Y=last_Y
 
-    #transmission rate = beta * XY/N
-	transmit_rate = b*(N0-Y)*Y/N0
-    #recovery rate = gamma * Y
-	recover_rate = g*Y
+	denial_rate = b*(N0-Y)*Y/N0
+	access_rate = g*Y
 
     #generate random numbers
 	rand1=pl.rand()
 	rand2=pl.rand()
 
     #time until either event occurs
-	ts = -np.log(rand2)/(transmit_rate+recover_rate)
-	if rand1 < (transmit_rate/(transmit_rate+recover_rate)):
-<<<<<<< HEAD
-        #
-=======
-        # infection
->>>>>>> b9f8232ea705a8b6aebd7083991f6f420ebf7557
+	ts = -np.log(rand2)/(denial_rate+access_rate)
+	if rand1 < (denial_rate/(denial_rate+access_rate)):
+
 		Y += 1;
 	else:
-        # recovery
+
 		Y -= 1;
 	return [Y, ts]
 
@@ -56,17 +50,17 @@ def stochastic_iteration(input, g, b):
 	ts=0
     # Initialize as lists
 	T=[0]
-	infected=[0]
+	naive=[0]
 	while T[lop] < ND and input > 0:
 		[res,ts] = stochastic_equations(input,ts,g,b)
 		lop=lop+1
 		T.append(T[lop-1]+ts)
-		infected.append(input)
+		naive.append(input)
 		lop=lop+1
 		T.append(T[lop-1])
-		infected.append(res)
+		naive.append(res)
 		input=res
-	return [np.array(infected), np.array(T)]
+	return [np.array(naive), np.array(T)]
 
 
 
