@@ -15,22 +15,21 @@ input = Y0
 
 def stochastic_equations(last_Y,ts):
 	Y=last_Y
-    #transmission rate = beta * XY/N
-	transmit_rate = beta*(N0-Y)*Y/N0
-    #recovery rate = gamma * Y
-	recover_rate = gamma*Y
+
+	denial_rate = beta*(N0-Y)*Y/N0
+	access_rate = gamma*Y
 
     #generate random numbers
 	rand1=pl.rand()
 	rand2=pl.rand()
 
     #time until either event occurs
-	ts = -np.log(rand2)/(transmit_rate+recover_rate)
-	if rand1 < (transmit_rate/(transmit_rate+recover_rate)):
+	ts = -np.log(rand2)/(denial_rate+access_rate)
+	if rand1 < (denial_rate/(denial_rate+access_rate)):
         # infection
 		Y += 1;
 	else:
-        # recovery
+        # accessy
 		Y -= 1;
 	return [Y, ts]
 
@@ -39,17 +38,17 @@ def stochastic_iteration(input):
 	ts=0
     # Initialize as lists
 	T=[0]
-	infected=[0]
+	naive=[0]
 	while T[lop] < ND and input > 0:
 		[res,ts] = stochastic_equations(input,ts)
 		lop=lop+1
 		T.append(T[lop-1]+ts)
-		infected.append(input)
+		naive.append(input)
 		lop=lop+1
 		T.append(T[lop-1])
-		infected.append(res)
+		naive.append(res)
 		input=res
-	return [np.array(infected), np.array(T)]
+	return [np.array(naive), np.array(T)]
 
 ## set up to run more instances
 # take snapshots on certain days, adjust to have insightful stopping points
@@ -57,11 +56,11 @@ stops = [1 * 24, 5 * 24, 10 * 24, 15*24];
 # number of simulations (100 -> 3s, 1000 -> 15s)
 instances = 100;
 
-# store results (number of infected individuals) in S
+# store results (number of naive individuals) in S
 S = [[0 for c in range(instances)] for r in range(len(stops))];
 
 for instance in range(0, instances):
-	[infected, timestamps]=stochastic_iteration(input)
+	[naive, timestamps]=stochastic_iteration(input)
 	#prefill with ND is greater than any possible diff
 	diff0 = [[ND for c in range(len(timestamps))] for s in range(len(stops))];
 	for r in range(0, len(stops)):
@@ -79,13 +78,13 @@ for instance in range(0, instances):
 			# get index of smallest entry in row
 			if diff0[r][c] == min_diff:
 				# S[row = stops][column = instances]
-				S[r][instance] = infected[c];  # todo - check if this was done right, go through loop
+				S[r][instance] = naive[c];  # todo - check if this was done right, go through loop
 
 print S;
 
 
 
-# plot 4 snapshots 
+# plot 4 snapshots
 f, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row');
 ax1.hist(S[0], bins = 10, alpha=0.75);
 ax1.set_title('1 Day');

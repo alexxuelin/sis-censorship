@@ -40,7 +40,11 @@ def stochastic_equations(last_Y,ts, g, b):
     #time until either event occurs
 	ts = -np.log(rand2)/(transmit_rate+recover_rate)
 	if rand1 < (transmit_rate/(transmit_rate+recover_rate)):
+<<<<<<< HEAD
+        #
+=======
         # infection
+>>>>>>> b9f8232ea705a8b6aebd7083991f6f420ebf7557
 		Y += 1;
 	else:
         # recovery
@@ -75,21 +79,34 @@ for g in gamma:
 		res_dict[(g,b)]=stochastic_iteration(input,g,b)
 
 
-fig, ax = plt.subplots( 9, 9, sharex='col', sharey='row');
+plt.close('all')
 
-counter1=0
-for b in beta:
-	counter2 =0
-	for g in gamma:
+#fig, ax = plt.subplots( 9, 9, sharex='col', sharey='row');
 
-		ax[counter1,counter2].plot(res_dict[(g,b)][1]/24., res_dict[(g,b)][0]);
-		#ax[counter1,counter2].set_title('Gamma: '+ str(g)+'Beta: '+str(b), size = 2);
-		#ax[counter1,counter2].set_axis_off
-		ax[counter1,counter2].grid
+fig, ax = plt.subplots()
+ax.set_title('Susceptible Populations: sensitivity analysis on Beta and Gamma')
 
-		counter2+=1
+#plt.axis('off')
 
 
-	counter1+=1
-	counter2=0
+def plot_sense(ax, g, b, res_dict, x_coor, y_coor):
+
+	#xx = [ (x/24 + x_coor) for x in res_dict[(g,b)][1]]
+	xx = [ (x/720 + x_coor) for x in res_dict[(g,b)][1]]
+	#print(len(xx))
+	print(max(xx))
+	#yy = [(y/100 + y_coor) for y in res_dict[(g,b)][0]]
+	yy = [(y + (y_coor-1)*100) for y in res_dict[(g,b)][0]]
+
+	ax.plot(xx,yy)
+
+for x,g in enumerate(gamma):
+	for y,b in enumerate(beta):
+		#ax.text(x*24, y*100, 'Gamma: '+ str(g)+'Beta: '+str(b), fontsize = 3)
+		ax.text(x,-120, 'Gamma: '+ str(g), fontsize = 3)
+		ax.text(-1,(y*100)-120, 'Beta: '+ str(b), fontsize = 3)
+		plot_sense(ax, g, b, res_dict, x, y)
+
+
+
 plt.show()
