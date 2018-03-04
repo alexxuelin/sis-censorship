@@ -14,12 +14,8 @@ threshold - what determines whether an epidemic will occur of fail to invade
 Basic reproductive ratio - the avg number of secondary cases arising from an average primary case in an entirely susceptible population - BETA/GAMMA
 Its inverse is the relative removal rate - GAMMA/BETA
 
-## More Tweaks on the Model (TODO 2)
-Write a different model (change the function called 'stochastic_equations' to create a better censorship model)
-Some Ideas
-- introduce a 3rd population of people
-- introduce another 'recovery' process
-- model heterogeneity in the ways people spread information
+## SIS_stochastic_bd.py
+Adding birth and death processes to the original model.
 
 ## Compare with Real Data (TODO)
 Not sure if this is feasible, but we can see if there's data on how information spread and see if our model is predictive
