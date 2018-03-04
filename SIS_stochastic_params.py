@@ -50,18 +50,14 @@ def stochastic_iteration(input, g, b):
 	ts=0
     # Initialize as lists
 	T=[0]
-	naive=[0]
+	informed=[input]
 	while T[lop] < ND and input > 0:
 		[res,ts] = stochastic_equations(input,ts,g,b)
-		lop=lop+1
 		T.append(T[lop-1]+ts)
-		naive.append(input)
-		lop=lop+1
-		T.append(T[lop-1])
-		naive.append(res)
+		informed.append(res)
 		input=res
-	return [np.array(naive), np.array(T)]
-
+		lop = lop + 1
+	return [np.array(informed), np.array(T)]
 
 res_dict={}
 

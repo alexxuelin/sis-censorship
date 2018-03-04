@@ -33,22 +33,40 @@ def stochastic_equations(last_Y,ts):
 		Y -= 1;
 	return [Y, ts]
 
+# def stochastic_iteration(input):
+# 	lop=0
+# 	ts=0
+#     # Initialize as lists
+# 	T=[0]
+# 	naive=[0]
+# 	while T[lop] < ND and input > 0:
+# 		[res,ts] = stochastic_equations(input,ts)
+# 		lop=lop+1
+# 		T.append(T[lop-1]+ts)
+# 		naive.append(input)
+# 		lop=lop+1
+# 		T.append(T[lop-1])
+# 		naive.append(res)
+# 		input=res
+# 	return [np.array(naive), np.array(T)]
+
 def stochastic_iteration(input):
 	lop=0
 	ts=0
     # Initialize as lists
 	T=[0]
-	naive=[0]
+	informed=[input]
+
+	# starts with T[0] and input = Y0 = 30
 	while T[lop] < ND and input > 0:
+
 		[res,ts] = stochastic_equations(input,ts)
-		lop=lop+1
-		T.append(T[lop-1]+ts)
-		naive.append(input)
-		lop=lop+1
-		T.append(T[lop-1])
-		naive.append(res)
+		T.append(T[lop] + ts)
+		informed.append(res)
 		input=res
-	return [np.array(naive), np.array(T)]
+		lop=lop+1
+
+	return [np.array(informed), np.array(T)]
 
 ## set up to run more instances
 # take snapshots on certain days, adjust to have insightful stopping points

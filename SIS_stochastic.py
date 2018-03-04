@@ -32,21 +32,23 @@ def stochastic_equations(last_Y,ts):
 		Y -= 1;
 	return [Y, ts]
 
+# redundancy fixed
 def stochastic_iteration(input):
 	lop=0
 	ts=0
     # Initialize as lists
 	T=[0]
-	informed=[0]
+	informed=[input]
+
+	# starts with T[0] and input = Y0 = 30
 	while T[lop] < ND and input > 0:
+
 		[res,ts] = stochastic_equations(input,ts)
-		lop=lop+1
-		T.append(T[lop-1]+ts)
-		informed.append(input)
-		lop=lop+1
-		T.append(T[lop-1])
+		T.append(T[lop] + ts)
 		informed.append(res)
 		input=res
+		lop=lop+1
+
 	return [np.array(informed), np.array(T)]
 
 # Visualize 4 simulations
@@ -54,6 +56,8 @@ def stochastic_iteration(input):
 [informed2,t2]=stochastic_iteration(input)
 [informed3,t3]=stochastic_iteration(input)
 [informed4,t4]=stochastic_iteration(input)
+
+print t1[:8], informed1[:8];
 
 f1, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row');
 ax1.plot(t1/24., informed1);
