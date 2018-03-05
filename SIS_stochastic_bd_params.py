@@ -96,8 +96,8 @@ plt.close('all')
 
 
 fig, ax = plt.subplots()
-ax.set_title('Susceptible Populations: sensitivity analysis to probability of being captured')
-
+ax.set_title('Informed Populations: sensitivity analysis on v and p')
+plt.axis('off')
 
 def plot_sense(ax, p,b, res_dict, x_coor, y_coor):
 
@@ -112,9 +112,12 @@ def plot_sense(ax, p,b, res_dict, x_coor, y_coor):
 
 for x,p in enumerate(pi):
 	for y,b in enumerate(bi):
-		ax.text(x,-120, 'P: '+ str(p), fontsize = 3)
-		ax.text(-1,(y*100)-120, 'B: '+ str(b), fontsize = 3)
+		ax.text(x,-120, 'P: '+ (str(p))[:4], fontsize = 5)
+		ax.text(-1,(y*100)-120, 'V: '+ (str(b))[:4], fontsize = 5)
 		plot_sense(ax, p, b, res_dict, x, y)
+
+ax.text(5, -200, 'Time (1 Month)')
+ax.text(-1.5, 500, 'Population of Informed Agents [0,1]', rotation='vertical')
 
 
 
