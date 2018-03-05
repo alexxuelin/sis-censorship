@@ -1,4 +1,4 @@
-# SIR-Censorship
+# SIS-Censorship
 This project models the spread of information using the SIS model for epidemics
 
 ## SIS_stochastic.py 
