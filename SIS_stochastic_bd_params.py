@@ -8,11 +8,16 @@ import matplotlib.pyplot as plt
 #Testing a range of betas and gammas
 ## Use this to adjust the gammas and betas tested - set it to anything
 pstart = 0.0
-pstop = 1
+pstop = 0.4
 pstep = 9
+
+bstart = 0.0
+bstop = 0.4
+bstep = 9
 
 ###############################################################################
 pi= np.linspace(pstart,pstop, pstep)
+bi= np.linspace(bstart,bstop, bstep)
 
 # Parameters and Initial Values
 beta= 0.1
@@ -25,48 +30,66 @@ input = Y0
 
 # params related to birth and death
 
-def stochastic_equations(last_Y,ts, p):
+def stochastic_equations(last_N, last_Y,ts,p,b):
 	Y=last_Y
-	denial_rate = beta*(N0-Y)*Y/(N0 * (1-p))
-	access_rate = gamma*Y
+	N=last_N
+	access_rate = beta*(N-Y)*Y/N
+	denial_rate = gamma*Y
+	death_rate = (p)/(1-p)*access_rate
+	birth_rate = b
+	# print access_rate,denial_rate,death_rate
 
     #generate random numbers
 	rand1=pl.rand()
 	rand2=pl.rand()
+	rand3=pl.rand()
 
     #time until either event occurs
-	ts = -np.log(rand2)/(denial_rate+access_rate)
-	if rand1 < (denial_rate/(denial_rate+access_rate)):
-        # denial, one more naive agent
-		Y += 1;
+	ts = -np.log(rand2)/(denial_rate+access_rate+birth_rate+death_rate)
+	if rand1 < ((access_rate+birth_rate)/(birth_rate+denial_rate+access_rate+death_rate)):
+		if (rand3 < access_rate/(birth_rate+access_rate)):
+			# access, one more informed agent
+			Y += 1
+		else:
+			# new birth turn up
+			N += 1
 	else:
-        # access, one fewer naive agent
-		Y -= 1;
-	return [Y, ts]
+        # denial, one fewer informed agent
+		Y -= 1
+		if(rand3 < death_rate/(death_rate+denial_rate)):
+			# denial and jailing
+			N-=1
 
-def stochastic_iteration(input,p):
+	return [N, Y, ts]
+
+def stochastic_iteration(input,p,b):
 	lop=0
 	ts=0
     # Initialize as lists
 	T=[0]
-	naive=[0]
+	informed=[input]
+	total=[N0]
+	tot=N0
+
+	# starts with T[0] and input = Y0 = 30
 	while T[lop] < ND and input > 0:
-		[res,ts] = stochastic_equations(input,ts,p)
-		lop=lop+1
-		T.append(T[lop-1]+ts)
-		naive.append(input)
-		lop=lop+1
-		T.append(T[lop-1])
-		naive.append(res)
+
+		[tot,res,ts] = stochastic_equations(tot,input,ts,p,b)
+		T.append(T[lop] + ts)
+		informed.append(res)
+		total.append(tot)
 		input=res
-	return [np.array(naive), np.array(T)]
+		lop=lop+1
+
+	return [np.array(total), np.array(informed), np.array(T)]
 
 
 res_dict={}
 
 
 for p in pi:
-		res_dict[p]=stochastic_iteration(input,p)
+	for b in bi:
+		res_dict[(p,b)]=stochastic_iteration(input,p,b)
 
 
 plt.close('all')
@@ -76,21 +99,22 @@ fig, ax = plt.subplots()
 ax.set_title('Susceptible Populations: sensitivity analysis to probability of being captured')
 
 
-def plot_sense(ax, p,res_dict, x_coor, y_coor):
+def plot_sense(ax, p,b, res_dict, x_coor, y_coor):
 
 	#xx = [ (x/24 + x_coor) for x in res_dict[(g,b)][1]]
-	xx = [ (x/720 + x_coor) for x in res_dict[p][1]]
+	xx = [ (x/720 + x_coor) for x in res_dict[(p,b)][2]]
 	#print(len(xx))
 	print(max(xx))
 	#yy = [(y/100 + y_coor) for y in res_dict[(g,b)][0]]
-	yy = [(y + (y_coor-1)*100) for y in res_dict[p][0]]
+	yy = [(y/3 + (y_coor-1)*100) for y in res_dict[(p,b)][1]]
 
 	ax.plot(xx,yy)
 
 for x,p in enumerate(pi):
-	y=1
-	ax.text(x,-15, 'pi: '+ str(p), fontsize = 3)
-	plot_sense(ax, p, res_dict, x, y)
+	for y,b in enumerate(bi):
+		ax.text(x,-120, 'P: '+ str(p), fontsize = 3)
+		ax.text(-1,(y*100)-120, 'B: '+ str(b), fontsize = 3)
+		plot_sense(ax, p, b, res_dict, x, y)
 
 
 

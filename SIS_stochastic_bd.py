@@ -21,8 +21,8 @@ def stochastic_equations(last_N, last_Y,ts):
 	N=last_N
 	access_rate = beta*(N-Y)*Y/N
 	denial_rate = gamma*Y
-	death_rate = (p)/(1-p)*beta*(N-Y)*Y/N
-	birth_rate = death_rate*1.1
+	death_rate = (p)/(1-p)*access_rate
+	birth_rate = 0.1
 	# print access_rate,denial_rate,death_rate
 
     #generate random numbers
