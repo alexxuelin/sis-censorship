@@ -9,7 +9,7 @@ gamma= 1/20.0
 Y0=30 # informed agents
 N0=100.0 #Total population
 # X = N - Y is informed Agents
-ND=30 * 24; #Time (a month)
+ND=30 * 24*100; #Time (a month)
 input = Y0
 
 # params related to birth and death
@@ -22,7 +22,7 @@ def stochastic_equations(last_N, last_Y,ts):
 	access_rate = beta*(N-Y)*Y/N
 	denial_rate = gamma*Y
 	death_rate = (p)/(1-p)*access_rate
-	birth_rate = 0.1
+	birth_rate = 0.25
 	# print access_rate,denial_rate,death_rate
 
     #generate random numbers
@@ -78,12 +78,16 @@ def stochastic_iteration(input):
 
 f1, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row');
 ax1.plot(t1/24., informed1);
+ax1.plot(t1/24., len(informed1)*[95])
 ax1.set_title('Simulation 1');
 ax2.plot(t2/24., informed2);
+ax2.plot(t2/24., len(informed2)*[95])
 ax2.set_title('Simulation 2');
 ax3.plot(t3/24., informed3);
+ax3.plot(t3/24., len(informed3)*[95])
 ax3.set_title('Simulation 3');
 ax4.plot(t4/24., informed4);
+ax4.plot(t4/24., len(informed4)*[95])
 ax4.set_title('Simulation 4');
 plt.show();
 
