@@ -74,7 +74,7 @@ plt.close('all')
 fig, ax = plt.subplots()
 ax.set_title('Informed Populations: sensitivity analysis on Beta and Gamma')
 
-#plt.axis('off')
+plt.axis('off')
 
 
 def plot_sense(ax, g, b, res_dict, x_coor, y_coor):
