@@ -1,7 +1,7 @@
 # SIR-Censorship
 This project models the spread of information using the SIS model for epidemics
 
-## SIS_stochastic.py (DONE)
+## SIS_stochastic.py 
 Visualizes 4 simulations of the SIS model (without birth or death, using poisson process time interval) over a one month period
 
 ## SIS_stochastic_pdfs.py
