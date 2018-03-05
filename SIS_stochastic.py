@@ -4,9 +4,9 @@ import pylab as pl
 import matplotlib.pyplot as plt
 
 # Parameters and Initial Values
-beta= 0.1
-gamma= 1/20.0
-Y0=30 #informed agents
+beta= 0.05
+gamma= 0.03
+Y0=650 #informed agents
 N0=100.0 #Total population
 # X = N - Y is informed Agents
 ND=30 * 24; #Time (a month)
@@ -59,7 +59,7 @@ def stochastic_iteration(input):
 
 print t1[:8], informed1[:8];
 
-f1, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col', sharey='row');
+f1, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2, sharex='col');
 ax1.plot(t1/24., informed1);
 ax1.set_title('Simulation 1');
 ax2.plot(t2/24., informed2);
@@ -68,4 +68,5 @@ ax3.plot(t3/24., informed3);
 ax3.set_title('Simulation 3');
 ax4.plot(t4/24., informed4);
 ax4.set_title('Simulation 4');
+f1.suptitle("4 Simulations with beta = 0.05, gamma = 0.03", fontsize=14)
 plt.show();
